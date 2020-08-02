@@ -21,10 +21,7 @@ class Navbar extends Component {
                 <Toolbar className="nav-container">
                     {authenticated ? (
                         <Fragment>
-                            <MyButton tip="PostScream" title="PostScream" btnClassName="{classses.button}">
-                                <AddIcon color="primary" />
-                            </MyButton>
-                            
+                            <PostScream />
                             <Link to="/">
                                 <MyButton tip="Home">
                                     <HomeIcon />

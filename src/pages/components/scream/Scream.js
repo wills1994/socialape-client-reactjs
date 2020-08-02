@@ -8,7 +8,12 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-
+import { connect } from 'react-redux';
+import MyButton from '../../../util/MyButton';
+import PropTypes from 'prop-types';
+import DeleteScream from './DeleteScream';
+import LikeButton from './LikeButton';
+import ChatIcon from '@material-ui/icons/Chat';
 const styles = {
     card: {
       position: 'relative',
@@ -25,6 +30,24 @@ const styles = {
   };
 
 class Scream extends Component {
+    likedScream = () => {
+      if (
+        this.props.user.likes &&
+        this.props.user.likes.find(
+          (like) => like.screamId === this.props.screamId
+        )
+      )
+        return true;
+      else return false;
+    };
+
+    likeScream = () => {
+      this.props.likeScream(this.props.screamId);
+    };
+    unlikeScream = () => {
+      this.props.unlikeScream(this.props.screamId);
+    };
+
     render() {
         dayjs.extend(relativeTime);
         const {
@@ -37,8 +60,19 @@ class Scream extends Component {
               screamId,
               likeCount,
               commentCount
+            },
+            user: {
+              authenticated,
+              credentials: { handle }
             }
           } = this.props;
+         
+          const deleteButton =
+           authenticated && 
+          userHandle === handle ? (
+            <DeleteScream screamId={screamId} />
+          ) : null;
+
         return (
             <Card className={classes.card}>
                 <CardMedia 
@@ -54,11 +88,16 @@ class Scream extends Component {
                         color="primary"
                     > {userHandle}
                     </Typography>
+                    {deleteButton}
                     <Typography variant="body2" color="textSecondary">
                         {dayjs(createdAt).fromNow()}
                     </Typography>
                     <Typography variant="body1">{body}</Typography>
+                    <LikeButton screamId={screamId} />
                     <span>{likeCount} Likes</span>
+                    <MyButton tip="comments">
+                      <ChatIcon color="primary" />
+                    </MyButton>
                     <span>{commentCount} comments</span>
                 </CardContent>
             </Card>
@@ -66,4 +105,16 @@ class Scream extends Component {
     }
 }
 
-export default withStyles(styles)(Scream);
+
+Scream.propTypes = {
+  user: PropTypes.object.isRequired,
+  scream: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  openDialog: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(withStyles(styles)(Scream));

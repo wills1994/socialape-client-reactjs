@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import Scream from '../components/scream/Scream';
 import Profile from '../components/profile/Profile';
 import ScreamSkeleton from '../../util/ScreamSkeleton';
+import { connect } from 'react-redux';
+import { getScreams } from '../../redux/actions/dataActions';
 
 axios.defaults.baseURL =
   'https://europe-west1-socialape-61d23.cloudfunctions.net/api';
@@ -15,17 +17,19 @@ class Home extends Component {
         screams:null
     }
     componentDidMount(){
-        axios.get('/screams')
+        this.props.getScreams();
+        /*axios.get('/screams')
         .then(res =>{
             this.setState({
                 screams:res.data
             })
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err));*/
     }
     render() {
-        let recentScreamsMarkup= this.state.screams ? (
-            this.state.screams.map((scream) => <Scream key={scream.screamId} scream={scream} />))
+        const { screams, loading } = this.props.data;
+        let recentScreamsMarkup= !loading ? (
+            screams.map((scream) => <Scream key={scream.screamId} scream={scream} />))
             :( <ScreamSkeleton />
         );
         return ( 
@@ -40,4 +44,13 @@ class Home extends Component {
                 );
     }
 }
-export default Home;
+Home.propTypes = {
+    getScreams: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired
+  };
+  
+const mapStateToProps = (state) => ({
+    data: state.data
+});
+  
+export default connect(mapStateToProps,{ getScreams })(Home);
