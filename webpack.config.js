@@ -51,7 +51,7 @@ module.exports = (env) => {
               {
                 loader: 'css-loader',
                 options: {
-                  minimize: true,
+                  minimize: false,
                 }
               }
             ]

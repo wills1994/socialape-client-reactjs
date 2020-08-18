@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import DeleteScream from './DeleteScream';
 import LikeButton from './LikeButton';
 import ChatIcon from '@material-ui/icons/Chat';
+import ScreamDialog from './ScreamDialog';
 const styles = {
     card: {
       position: 'relative',
@@ -99,6 +100,11 @@ class Scream extends Component {
                       <ChatIcon color="primary" />
                     </MyButton>
                     <span>{commentCount} comments</span>
+                    <ScreamDialog
+                      screamId={screamId}
+                      userHandle={userHandle}
+                      openDialog={this.props.openDialog}
+                    />
                 </CardContent>
             </Card>
         )

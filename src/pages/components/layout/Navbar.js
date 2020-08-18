@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import MyButton from '../../../util/MyButton';
 import PostScream from '../scream/PostScream';
 import Notifications from './Notifications';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import { connect } from 'react-redux';
 // Icons
@@ -27,9 +26,7 @@ class Navbar extends Component {
                                     <HomeIcon />
                                 </MyButton>
                             </Link>
-                            <MyButton tip="Notifications" title="Notifications" btnClassName="{classses.button}">
-                                <NotificationsIcon color="primary" />
-                            </MyButton>
+                            <Notifications />
                         </Fragment>
                     ):(
                         <Fragment>

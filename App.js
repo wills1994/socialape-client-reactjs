@@ -23,6 +23,7 @@ import './App.css';
 import home from './src/pages/containers/home';
 import login from './src/pages/containers/login';
 import signup from './src/pages/containers/signup';
+import user from './src/pages/containers/user';
 import axios from 'axios';
 
 const theme = createMuiTheme(themeObject);
@@ -55,6 +56,8 @@ class App extends Component {
                                 <Route exact path="/" component={home} />
                                 <AuthRoute exact path="/login" component={login} /> 
                                 <AuthRoute exact path="/signup" component={signup}  />
+                                <Route exact path="/users/:handle" component={user}  />
+                                <Route exact path="/users/:handle/scream/:screamId" component={user}  />
                             </Switch>
                         </div>
                     </Router>
